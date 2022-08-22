@@ -1,32 +1,28 @@
-import tkinter as tk
-from tkinter import filedialog
+import os
 from PyPDF2 import PdfMerger, PdfFileWriter, PdfFileReader
-def mergerPDF(inFileList):
-	'''
-	按列表名称顺序合并pdf
-	'''
-	file_opt = options = {}  
-	options['defaultextension'] = '.pdf'  
-	options['filetypes'] = [('任意类型', '.*'),('pdf文件', '.pdf')]  
-	options['initialfile'] = 'temp.pdf'  
-	options['parent'] = root  
-	options['title'] = '合并pdf文件' # 定义另存为界面的内容 
-	pdfWriter = PdfFileWriter()
-	for inFile in inFileList:
-		pdfReader = PdfFileReader(open(inFile,'rb'))
-		numPages = pdfReader.getNumPages()     # 获取文档页数
-		for index in range(0, numPages):
-			pageObj = pdfReader.getPage(index) # 获取当前页
-			pdfWriter.addPage(pageObj)         # 写入临时文件
-	outFile = tk.filedialog.asksaveasfile(mode='w',**file_opt)  # 保存
-	if outFile:
-		pdfWriter.write(open(outFile.name,'wb'))
-		print("完成")
-	else:
-		print("失败")
-root = tk.Tk()
-root.withdraw()
-# file_path = filedialog.askopenfilenames() # 获取一个文件的文件名
-file_path = filedialog.askopenfilenames()   # 按ctrl选取多个文件的文件名，按字母顺序排序
-print(file_path)
-mergerPDF(file_path)
+
+
+def merge_pdf(input_path='cut', output_path='merge', output_file_name='merged_pdf'):
+    cwd_path = os.getcwd()
+    input_path = os.path.join(cwd_path, input_path)
+    output_path = os.path.join(cwd_path, output_path)
+    output_file_name = os.path.join(output_path, output_file_name) + '.pdf'
+    
+    if (not os.path.exists(output_path)):
+        os.makedirs(output_path)
+    
+    input_file_list = []
+    for dirpath, _ , filenames in os.walk(input_path):
+        
+        for pdf_file in filenames:
+            if (os.path.splitext(pdf_file)[1]=='.pdf'):
+                input_file_list.append(os.path.join(dirpath, pdf_file))
+        
+        writer = PdfFileWriter()
+        for single_pdf_file_path in input_file_list:
+            reader = PdfFileReader(single_pdf_file_path)
+            
+            for page in reader.pages:
+                writer.add_page(page)
+    
+    writer.write(open(output_file_name, 'wb'))
