@@ -1,27 +1,49 @@
-from PyPDF2 import PdfWriter, PdfReader
+from PyPDF2 import PdfReader, PdfWriter, Transformation, PageObject, PdfFileReader, PdfFileWriter
 
-reader = PdfReader(r"D:\Files\MyOwnTools\DOC2PDF\doc\test_doc.pdf")
-writer = PdfWriter()
+file_name = r'D:\Files\MyOwnTools\DOC2PDF\pdf\概率机器学习大作业-周建桥_docx.pdf'
+reader = PdfFileReader(
+    open(r"D:\Files\MyOwnTools\DOC2PDF\修改\修改概率机器学习大作业-周建桥_docx.pdf", 'rb'))
+# reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\pdf\2.pdf",'rb'))
+reader = PdfFileReader(open(file_name, 'rb'))
 
-# add page 1 from reader to output document, unchanged:
-writer.add_page(reader.pages[0])
+two_pages_width = 841.92004
+two_pages_height = 595.32001
+writer = PdfFileWriter()
 
-# add page 2 from reader, but rotated clockwise 90 degrees:
-writer.add_page(reader.pages[1].rotate(90))
+for i in range(0, reader.numPages, 2):
+    page_1 = reader.getPage(i)
+    if (i+1 < reader.numPages):
+        page_2 = reader.getPage(i+1)
+    else:
+        page_2 = PageObject.createBlankPage(
+            None, two_pages_width/2, two_pages_height)
 
-# add page 3 from reader, but crop it to half size:
-page3 = reader.pages[2]
-page3.mediabox.upper_right = (
-    page3.mediabox.right / 2,
-    page3.mediabox.top / 2,
-)
-writer.add_page(page3)
+    print(page_1.mediaBox.getWidth())
+    print(page_1.mediaBox.getHeight())
 
-# add some Javascript to launch the print window on opening this PDF.
-# the password dialog may prevent the print dialog from being shown,
-# comment the the encription lines, if that's the case, to try this out:
-writer.add_js("this.print({bUI:true,bSilent:false,bShrinkToFit:true});")
+    print(page_2.mediaBox.getWidth())
+    print(page_2.mediaBox.getHeight())
 
-# write to document-output.pdf
-with open("PyPDF2-output.pdf", "wb") as fp:
-    writer.write(fp)
+    # two_pages_width = page_1.mediaBox.getWidth()*2
+    # two_pages_height = page_1.mediaBox.getHeight()
+
+    # Creating a new file double the size of the original
+    # translated_page = PageObject.createBlankPage(None, page_1.mediaBox.getWidth()*2, page_1.mediaBox.getHeight())
+    translated_page = PageObject.createBlankPage(
+        None, two_pages_width, two_pages_height)
+
+    # Adding the pages to the new empty page
+    translated_page.mergeScaledTranslatedPage(page_1, 1, -10, 0, 1)
+    # translated_page.mergePage(page_1)
+    translated_page.mergeScaledTranslatedPage(
+        page_2, 1, float(two_pages_width/2)+10, 0, 1)
+
+    writer.addPage(translated_page)
+
+with open('out.pdf', 'wb') as f:
+    writer.write(f)
+
+reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\out.pdf", 'rb'))
+page = reader.getPage(0)
+print(page.mediabox.getHeight())
+print(page.mediabox.getWidth())
