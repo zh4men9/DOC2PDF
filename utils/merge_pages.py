@@ -1,50 +1,64 @@
 from PyPDF2 import PdfReader, PdfWriter, Transformation, PageObject, PdfFileReader, PdfFileWriter
+import os
 
-def merge_pages(input_path='pdf', output_path='double_col'):
-    file_name = r'D:\Files\MyOwnTools\DOC2PDF\pdf\概率机器学习大作业-周建桥_docx.pdf'
-    reader = PdfFileReader(
-        open(r"D:\Files\MyOwnTools\DOC2PDF\修改\修改概率机器学习大作业-周建桥_docx.pdf", 'rb'))
-    # reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\pdf\2.pdf",'rb'))
-    reader = PdfFileReader(open(file_name, 'rb'))
 
-    two_pages_width = 841.92004 # word打印成双栏的大小
-    two_pages_height = 595.32001
-    writer = PdfFileWriter()
+def merge_pages(input_path='pdf', output_path='double_col', pages=2,
+                single_pages_width=420.96002, single_pages_height=595.32001, col_width=10, axis='X'):
 
-    for i in range(0, reader.numPages, 2):
-        page_1 = reader.getPage(i)
-        if (i+1 < reader.numPages):
-            page_2 = reader.getPage(i+1)
-        else:
-            page_2 = PageObject.createBlankPage(
-                None, two_pages_width/2, two_pages_height)
+    # 默认参数为word打印成双栏的长宽
+    # 页面参数配置
+    pages_width = single_pages_width*pages
+    pages_height = single_pages_height
 
-        # print(page_1.mediaBox.getWidth())
-        # print(page_1.mediaBox.getHeight())
+    input_path = os.path.join(os.getcwd(), input_path)
+    print(f'input_path:{input_path}')
+    output_path = os.path.join(os.getcwd(), output_path)
+    print(f'output_path:{output_path}')
 
-        # print(page_2.mediaBox.getWidth())
-        # print(page_2.mediaBox.getHeight())
+    if (not os.path.exists(output_path)):
+        os.makedirs(output_path)
 
-        # two_pages_width = page_1.mediaBox.getWidth()*2
-        # two_pages_height = page_1.mediaBox.getHeight()
+    for dirpath, dirnames, filenames in os.walk(input_path):
+        for file_name in filenames:
+            input_file_path = os.path.join(dirpath, file_name)
+            output_file_path = os.path.join(output_path, file_name)
 
-        # Creating a new file double the size of the original
-        # translated_page = PageObject.createBlankPage(None, page_1.mediaBox.getWidth()*2, page_1.mediaBox.getHeight())
-        translated_page = PageObject.createBlankPage(
-            None, two_pages_width, two_pages_height)
+            reader = PdfFileReader(open(input_file_path, 'rb'))
 
-        # Adding the pages to the new empty page
-        translated_page.mergeScaledTranslatedPage(page_1, 1, -10, 0, 1)
-        # translated_page.mergePage(page_1)
-        translated_page.mergeScaledTranslatedPage(
-            page_2, 1, float(two_pages_width/2)+10, 0, 1)
+            writer = PdfFileWriter()
 
-        writer.addPage(translated_page)
+            for i in range(0, reader.numPages, 2):
+                page_1 = reader.getPage(i)
+                if (i+1 < reader.numPages):
+                    page_2 = reader.getPage(i+1)
+                else:
+                    page_2 = PageObject.createBlankPage(
+                        None, pages_width/2, pages_height)
 
-    with open('out.pdf', 'wb') as f:
-        writer.write(f)
+                # print(page_1.mediaBox.getWidth())
+                # print(page_1.mediaBox.getHeight())
 
-    # reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\out.pdf", 'rb'))
-    # page = reader.getPage(0)
-    print(page.mediabox.getHeight())
-    print(page.mediabox.getWidth())
+                # print(page_2.mediaBox.getWidth())
+                # print(page_2.mediaBox.getHeight())
+
+                # pages_width = page_1.mediaBox.getWidth()*2
+                # pages_height = page_1.mediaBox.getHeight()
+
+                # Creating a new file double the size of the original
+                translated_page = PageObject.createBlankPage(
+                    None, pages_width, pages_height)
+
+                # Adding the pages to the new empty page
+                translated_page.mergeScaledTranslatedPage(
+                    page_1, 1, -col_width, 0, 1)
+                translated_page.mergeScaledTranslatedPage(
+                    page_2, 1, float(pages_width/2)+col_width, 0, 1)
+
+                writer.addPage(translated_page)
+
+            with open(output_file_path, 'wb') as f:
+                writer.write(f)
+
+
+if __name__ == '__main__':
+    merge_pages(input_path='pdf', output_path='double_col')
