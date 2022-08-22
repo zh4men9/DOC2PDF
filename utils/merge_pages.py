@@ -11,9 +11,9 @@ def merge_pages(input_path='pdf', output_path='double_col', pages=2,
     pages_height = single_pages_height
 
     input_path = os.path.join(os.getcwd(), input_path)
-    print(f'input_path:{input_path}')
+    # print(f'input_path:{input_path}')
     output_path = os.path.join(os.getcwd(), output_path)
-    print(f'output_path:{output_path}')
+    # print(f'output_path:{output_path}')
 
     if (not os.path.exists(output_path)):
         os.makedirs(output_path)

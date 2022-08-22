@@ -7,7 +7,7 @@
 - 裁剪页边距
 - 合并文件
 
-更详细介绍见博客：[(10条消息) DOC2PDF项目博客_zh4men9的博客-CSDN博客](https://blog.csdn.net/qq_32614873/article/details/126469728?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22126469728%22%2C%22source%22%3A%22qq_32614873%22%7D)
+更详细介绍见博客：[(10条消息) DOC2PDF项目博客_zh4men9的博客-CSDN博客](https://blog.csdn.net/qq_32614873/article/details/126470122?spm=1001.2014.3001.5502)
 
 ## TO DO
 

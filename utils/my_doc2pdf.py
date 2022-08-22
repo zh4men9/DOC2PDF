@@ -63,10 +63,10 @@ def my_doc2pdf(input_path='doc', output_path='pdf'):
         # print(doc_path)
         # 判断文件后缀是否是doc或者docx
         if (doc_path.endswith('doc')):
-            print(doc_path)
+            print(f'正在转换:{doc_path}')
             doc2pdf(doc_path, output_path)
         elif (doc_path.endswith('docx')):
-            print(doc_path)
+            print(f'正在转换:{doc_path}')
             docx2pdf(doc_path, output_path)
 
 

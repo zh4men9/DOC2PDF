@@ -1,0 +1,23 @@
+doc2pdf:
+  doc2pdf_input_path: doc
+  doc2pdf_output_path: output/pdf
+
+merge_pages:
+  merge_pages_input_path: output/pdf
+  merge_pages_output_path: output/double_col
+  col_width: 10
+
+cut:
+  cut_input_path: output/double_col
+  cut_output_path: output/cut
+  left_margin: 60
+  right_margin: 70
+  top_margin: 65
+  bottom_margin: 75
+
+merge_pdf:
+  merge_pdf_input_path: output/cut
+  merge_pdf_output_path: output/merge
+  merge_pdf_output_file_name: merged_pdf
+
+# 打包命令 pyinstaller -D -p DOC2PDF_APP DOC2PDF.py
