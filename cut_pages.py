@@ -4,7 +4,6 @@
 import PyPDF2
 import os
 
-
 def split(page):
     page.mediaBox.lowerLeft = (left_margin, bottom_margin)
     page.mediaBox.lowerRight = (width - right_margin, bottom_margin)
@@ -12,7 +11,8 @@ def split(page):
     page.mediaBox.upperRight = (width - right_margin, height - top_margin)
 
 
-left_margin = right_margin = 60
+left_margin = 60
+right_margin = 70
 top_margin = 65
 bottom_margin = 75
 

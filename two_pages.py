@@ -6,7 +6,7 @@ reader = PdfFileReader(
 # reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\pdf\2.pdf",'rb'))
 reader = PdfFileReader(open(file_name, 'rb'))
 
-two_pages_width = 841.92004
+two_pages_width = 841.92004 # word打印成双栏的大小
 two_pages_height = 595.32001
 writer = PdfFileWriter()
 
@@ -18,11 +18,11 @@ for i in range(0, reader.numPages, 2):
         page_2 = PageObject.createBlankPage(
             None, two_pages_width/2, two_pages_height)
 
-    print(page_1.mediaBox.getWidth())
-    print(page_1.mediaBox.getHeight())
+    # print(page_1.mediaBox.getWidth())
+    # print(page_1.mediaBox.getHeight())
 
-    print(page_2.mediaBox.getWidth())
-    print(page_2.mediaBox.getHeight())
+    # print(page_2.mediaBox.getWidth())
+    # print(page_2.mediaBox.getHeight())
 
     # two_pages_width = page_1.mediaBox.getWidth()*2
     # two_pages_height = page_1.mediaBox.getHeight()
@@ -43,7 +43,7 @@ for i in range(0, reader.numPages, 2):
 with open('out.pdf', 'wb') as f:
     writer.write(f)
 
-reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\out.pdf", 'rb'))
-page = reader.getPage(0)
+# reader = PdfFileReader(open(r"D:\Files\MyOwnTools\DOC2PDF\out.pdf", 'rb'))
+# page = reader.getPage(0)
 print(page.mediabox.getHeight())
 print(page.mediabox.getWidth())
