@@ -11,7 +11,7 @@
 
 # 使用
 
-为方便使用工具，已将工具打包，打包后的文件在 `DOC2PDF`中
+为方便使用工具，已将工具打包，打包后的文件在 `DOC2PDF_APP`中
 
 打包命令: `pyinstaller -D -p DOC2PDF_APP DOC2PDF.py`
 
