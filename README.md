@@ -1,3 +1,5 @@
+[![Security Status](https://www.murphysec.com/platform3/v3/badge/1611146949546246144.svg?t=1)](https://www.murphysec.com/accept?code=c39119a3ae1ad45230415f6b78ea3b1f&type=1&from=2&t=2)
+
 # DOC2PDF
 
 正如DOC2PDF名字可见，这个工具将DOC文档转换成PDF文件，批量转换，解放双手。详细功能如下：
@@ -21,3 +23,4 @@
 
 * [ ] 多页合并
 * [ ] 选择文件进行操作
+* [ ] 支持其他文件转PDF（图片、PPT等）
